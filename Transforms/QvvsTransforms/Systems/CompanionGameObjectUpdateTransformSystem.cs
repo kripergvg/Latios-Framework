@@ -32,7 +32,7 @@ namespace Latios.Transforms.Systems
         struct IndexAndInstance
         {
             public int transformAccessArrayIndex;
-            public int instanceID;
+            public UnityEngine.EntityId entityId;
         }
 
         TransformAccessArray                    m_transformAccessArray;
@@ -80,13 +80,9 @@ namespace Latios.Transforms.Systems
                         {
                             IndexAndInstance indexAndInstance          = default;
                             indexAndInstance.transformAccessArrayIndex = m_entities.Length;
-                            indexAndInstance.instanceID                = link.CompanionTransform.InstanceID();
+                            indexAndInstance.entityId                  = link.CompanionTransform.EntityId();
                             m_entitiesMap.Add(entity, indexAndInstance);
-#if UNITY_6000_3_OR_NEWER
                             m_transformAccessArray.Add(link.CompanionTransform.EntityId());
-#else
-                            m_transformAccessArray.Add(link.CompanionTransform.InstanceID());
-#endif
                             m_entities.Add(entity);
                         }
                     }
@@ -116,8 +112,8 @@ namespace Latios.Transforms.Systems
                 foreach (var (link, entity) in Query<CompanionLinkTransform>().WithChangeFilter<CompanionLink>().WithEntityAccess())
                 {
                     var cached    = m_entitiesMap[entity];
-                    var currentID = link.CompanionTransform.InstanceID();
-                    if (cached.instanceID != currentID)
+                    var currentId = link.CompanionTransform.EntityId();
+                    if (cached.entityId != currentId)
                     {
                         // We avoid the need to update the indices and reorder the entities array by adding
                         // the new transform first, and removing the old one after with a RemoveAtSwapBack.
@@ -125,13 +121,9 @@ namespace Latios.Transforms.Systems
                         // 1. ABCD + X = ABCDX
                         // 2. ABCDX - B = AXCD
                         // -> the transform is updated, but the index remains unchanged
-#if UNITY_6000_3_OR_NEWER
                         m_transformAccessArray.Add(link.CompanionTransform.EntityId());
-#else
-                        m_transformAccessArray.Add(link.CompanionTransform.InstanceID());
-#endif
                         m_transformAccessArray.RemoveAtSwapBack(cached.transformAccessArrayIndex);
-                        cached.instanceID     = currentID;
+                        cached.entityId       = currentId;
                         m_entitiesMap[entity] = cached;
                     }
                 }

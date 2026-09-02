@@ -90,10 +90,7 @@ namespace Unity.Entities.Exposed
         }
 
         // Todo: Find a better home
-        public static int InstanceID<T>(this UnityObjectRef<T> unityObjectRef) where T : UnityEngine.Object => unityObjectRef.Id.entityId;
-#if UNITY_6000_3_OR_NEWER
         public static UnityEngine.EntityId EntityId<T>(this UnityObjectRef<T> unityObjectRef) where T : UnityEngine.Object => unityObjectRef.Id.entityId;
-#endif
 
         public static Entity GetEntity(this SystemHandle systemHandle) => systemHandle.m_Entity;
 
