@@ -1,5 +1,5 @@
 #region Header
-#if (ENABLE_UNITY_COLLECTIONS_CHECKS || DEVELOPMENT_BUILD) && !DISABLE_MATERIALMESHINFO_BOUNDS_CHECKING
+#if (ENABLE_UNITY_COLLECTIONS_CHECKS || UNITY_ENABLE_CHECKS) && !DISABLE_MATERIALMESHINFO_BOUNDS_CHECKING
 #define ENABLE_MATERIALMESHINFO_BOUNDS_CHECKING
 #endif
 
@@ -67,20 +67,17 @@ namespace Latios.Kinemation.Systems
 
         private void UpdateFilterSettings(ref SystemState state)
         {
-            m_RenderFilterSettings.Clear();
-            m_SharedComponentIndices.Clear();
-
-            state.EntityManager.GetAllUniqueSharedComponentsManaged(m_RenderFilterSettings, m_SharedComponentIndices);
+            state.EntityManager.GetAllUniqueSharedComponents<RenderFilterSettings>(
+                out var renderFilterSettings,
+                out var sharedComponentIndices,
+                Allocator.Temp);
 
             m_unmanaged.m_FilterSettings.Clear();
-            for (int i = 0; i < m_SharedComponentIndices.Count; ++i)
+            for (int i = 0; i < sharedComponentIndices.Length; ++i)
             {
-                int sharedIndex                           = m_SharedComponentIndices[i];
-                m_unmanaged.m_FilterSettings[sharedIndex] = MakeFilterSettings(m_RenderFilterSettings[i]);
+                int sharedIndex                           = sharedComponentIndices[i];
+                m_unmanaged.m_FilterSettings[sharedIndex] = MakeFilterSettings(renderFilterSettings[i]);
             }
-
-            m_RenderFilterSettings.Clear();
-            m_SharedComponentIndices.Clear();
         }
 
         static BatchFilterSettings MakeFilterSettings(in RenderFilterSettings filterSettings)

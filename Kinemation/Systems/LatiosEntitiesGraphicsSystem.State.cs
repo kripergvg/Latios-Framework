@@ -29,10 +29,6 @@ namespace Latios.Kinemation.Systems
 
         internal const int kMaxBytesPerBatchRawBuffer = 16 * 1024 * 1024;
 
-        // Reuse Lists used for GetAllUniqueSharedComponentData to avoid GC allocs every frame
-        private List<RenderFilterSettings> m_RenderFilterSettings   = new List<RenderFilterSettings>();
-        private List<int>                  m_SharedComponentIndices = new List<int>();
-
         private BatchRendererGroup m_BatchRendererGroup;
 
 #if ENABLE_PICKING
