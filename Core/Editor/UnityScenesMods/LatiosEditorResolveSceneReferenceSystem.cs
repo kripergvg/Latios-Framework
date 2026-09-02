@@ -43,7 +43,7 @@ namespace Unity.Scenes
     {
         struct AssetDependencyTrackerState : ICleanupComponentData
         {
-            public UnityEditor.GUID SceneAndBuildConfigGUID;
+            public UnityEngine.GUID SceneAndBuildConfigGUID;
         }
 
         EntityQuery m_AddScenes;
@@ -168,17 +168,25 @@ namespace Unity.Scenes
             _SceneHeaderUtility.CleanupHeaders(EntityManager);
 
             bool headerLoadInProgress = false;
-            Entities.WithStructuralChanges().WithNone<DisableSceneResolveAndLoad, ResolvedSectionEntity>().ForEach(
-                (Entity sceneEntity, ref RequestSceneHeader requestHeader, ref SceneReference scene,
-                 ref ResolvedSceneHash resolvedSceneHash, ref RequestSceneLoaded requestSceneLoaded) =>
+
+            var query = SystemAPI.QueryBuilder().WithNone<DisableSceneResolveAndLoad, ResolvedSectionEntity>()
+                .WithAll<RequestSceneHeader, SceneReference, ResolvedSceneHash, RequestSceneLoaded>().Build();
+
+            var sceneEntities = query.ToEntityArray(Allocator.Temp);
+            foreach (var sceneEntity in sceneEntities)
             {
+                var requestHeader     = SystemAPI.GetComponent<RequestSceneHeader>(sceneEntity);
+                var scene             = SystemAPI.GetComponent<SceneReference>(sceneEntity);
+                var requestSceneLoaded = SystemAPI.GetComponent<RequestSceneLoaded>(sceneEntity);
+
                 if (!requestHeader.IsCompleted)
                 {
                     if ((requestSceneLoaded.LoadFlags & SceneLoadFlags.BlockOnImport) == 0)
                     {
                         headerLoadInProgress = true;
-                        return;
+                        continue;
                     }
+
                     requestHeader.Complete();
                 }
 
@@ -189,7 +197,7 @@ namespace Unity.Scenes
                     requestHeader.Dispose();
                     EntityManager.AddBuffer<ResolvedSectionEntity>(sceneEntity);
                     EntityManager.RemoveComponent<RequestSceneHeader>(sceneEntity);
-                    return;
+                    continue;
                 }
 
                 ResolveSceneSectionUtility.ResolveSceneSections(EntityManager, sceneEntity, requestSceneLoaded, ref headerLoadResult.SceneMetaData.Value,
@@ -199,16 +207,23 @@ namespace Unity.Scenes
 #if UNITY_EDITOR
                 if (EntityManager.HasComponent<SubScene>(sceneEntity))
                 {
+                    #pragma warning disable 0618 // Managed API is still required for editor SubScene links.
                     var subScene = EntityManager.GetComponentObject<SubScene>(sceneEntity);
+                    #pragma warning restore 0618
+
                     // Add SubScene component to section entities
                     using (var sectionEntities = EntityManager.GetBuffer<ResolvedSectionEntity>(sceneEntity).ToNativeArray(Allocator.Temp))
                     {
                         for (int iSection = 0; iSection < sectionEntities.Length; ++iSection)
+                        {
+                            #pragma warning disable 0618 // Managed API is still required for editor SubScene links.
                             EntityManager.AddComponentObject(sectionEntities[iSection].SectionEntity, subScene);
+                            #pragma warning restore 0618
+                        }
                     }
                 }
 #endif
-            }).Run();
+            }
 
             if (headerLoadInProgress)
                 EditorUpdateUtility.EditModeQueuePlayerLoopUpdate();
