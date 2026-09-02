@@ -50,9 +50,9 @@ namespace Latios.Kinemation.Systems
                                             ref SystemState state,
                                             ref BatchCullingContext batchCullingContext,
                                             ref BatchCullingOutput cullingOutput,
-                                            WrappedPickingIncludeExcludeList wrappedIncludeExcludeList)
+                                            in WrappedPickingIncludeExcludeList wrappedIncludeExcludeList)
         {
-            return unmanaged->OnPerformCullingBegin(ref state, ref batchCullingContext, ref cullingOutput, wrappedIncludeExcludeList);
+            return unmanaged->OnPerformCullingBegin(ref state, ref batchCullingContext, ref cullingOutput, in wrappedIncludeExcludeList);
         }
 
         [BurstCompile]
@@ -72,13 +72,13 @@ namespace Latios.Kinemation.Systems
             public bool OnPerformCullingBegin(ref SystemState state,
                                               ref BatchCullingContext batchCullingContext,
                                               ref BatchCullingOutput cullingOutput,
-                                              WrappedPickingIncludeExcludeList wrappedIncludeExcludeList)
+                                              in WrappedPickingIncludeExcludeList wrappedIncludeExcludeList)
             {
                 cullingOutput.customCullingResult[0] = (IntPtr)m_cullPassIndexThisFrame;
 
                 IncludeExcludeListFilter includeExcludeListFilter = GetPickingIncludeExcludeListFilterForCurrentCullingCallback(state.EntityManager,
                                                                                                                                 batchCullingContext,
-                                                                                                                                wrappedIncludeExcludeList,
+                                                                                                                                in wrappedIncludeExcludeList,
                                                                                                                                 m_ThreadLocalAllocators.GeneralAllocator->ToAllocator);
 
                 // If inclusive filtering is enabled and we know there are no included entities,
@@ -192,7 +192,7 @@ namespace Latios.Kinemation.Systems
         // This function does only return a meaningful IncludeExcludeListFilter object when called from a BRG culling callback.
         static IncludeExcludeListFilter GetPickingIncludeExcludeListFilterForCurrentCullingCallback(EntityManager entityManager,
                                                                                                     in BatchCullingContext cullingContext,
-                                                                                                    WrappedPickingIncludeExcludeList wrappedIncludeExcludeList,
+                                                                                                    in WrappedPickingIncludeExcludeList wrappedIncludeExcludeList,
                                                                                                     Allocator allocator)
         {
 #if ENABLE_PICKING && !DISABLE_INCLUDE_EXCLUDE_LIST_FILTERING
