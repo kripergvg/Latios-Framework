@@ -88,7 +88,6 @@ namespace Latios.Compatibility.UnityNetCode
     /// LatiosClientServerBootstrap is a derived class of <see cref="=ClientServerBootstrap"/> and has a very similar interface.
     /// The main difference is that its methods are able to invoke the custom bootstraps to create customized worlds akin to non-NetCode projects.
     /// </summary>
-    [Obsolete("Unity has made a change to NetCode in versions of Unity > 6.3 LTS that is incompatible with LatiosWorld. NetCode support will be dropped.")]
     [UnityEngine.Scripting.Preserve]
     public abstract class LatiosClientServerBootstrap : ClientServerBootstrap
     {

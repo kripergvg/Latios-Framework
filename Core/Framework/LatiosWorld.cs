@@ -14,7 +14,7 @@ namespace Latios
     /// <summary>
     /// A specialized runtime World which contains Latios Framework core functionality.
     /// </summary>
-    public unsafe class LatiosWorld : World
+    public unsafe class LatiosWorld : NetCodeCompatibility.LatiosNetcodeWorldBase
     {
         /// <summary>
         /// The unmanaged state of the Latios World
