@@ -106,7 +106,7 @@ namespace Latios.Kinemation
             // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
             // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
             // THE SOFTWARE.
-            var q = math.InverseRotateFast(referenceRotation, rotationToConstrain).value;
+            var q = LatiosMath.InverseRotateFast(referenceRotation, rotationToConstrain).value;
             q     = math.select(q, -q, q.w < 0f);
 
             // Rotate ordinates so that x is twist axis to match reference implementation
@@ -208,7 +208,7 @@ namespace Latios.Kinemation
         {
             var newLocalRotation   = math.mul(proposedTransformDelta.rot, bone.rootRotation);
             var parentRootRotation = bone.index > 0 ? bone.parent.rootRotation : quaternion.identity;
-            newLocalRotation       = math.InverseRotateFast(parentRootRotation, newLocalRotation);
+            newLocalRotation       = LatiosMath.InverseRotateFast(parentRootRotation, newLocalRotation);
             newLocalRotation       = constraints[bone.index].ApplyConstraint(newLocalRotation);
             var oldLocalRotation   = bone.localRotation;
             var newAngle           = math.angle(oldLocalRotation, newLocalRotation);

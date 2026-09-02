@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using Latios.Unsafe;
 using Unity.Collections;
@@ -101,7 +101,7 @@ namespace Latios.Psyshock
                 {
                     blobTransform      = blob.transforms[index];
                     blobTransform.pos *= scale * stretch;
-                    var localStretch   = math.InverseRotateFast(blobTransform.rot, stretch);
+                    var localStretch   = LatiosMath.InverseRotateFast(blobTransform.rot, stretch);
                     blobCollider       = blob.colliders[index];
                     Physics.ScaleStretchCollider(ref blobCollider, scale, localStretch);
                     break;

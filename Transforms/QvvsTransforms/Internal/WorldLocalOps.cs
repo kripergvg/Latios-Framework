@@ -138,11 +138,11 @@ namespace Latios.Transforms
                 keepWorld.y              = (flags & InheritanceFlags.WorldY) != InheritanceFlags.Normal;
                 keepWorld.z              = (flags & InheritanceFlags.WorldZ) != InheritanceFlags.Normal;
                 var originalWorldOffset  = worldPosition - parent.position;
-                var parentRelativeOffset = math.InverseRotateFast(parent.rotation, originalWorldOffset);
+                var parentRelativeOffset = LatiosMath.InverseRotateFast(parent.rotation, originalWorldOffset);
                 parentRelativeOffset     = math.select(parentRelativeOffset, float3.zero, bad);
                 var worldOffset          = math.rotate(parent.rotation, parentRelativeOffset);
                 worldOffset              = math.select(worldOffset, originalWorldOffset, keepWorld);
-                newLocalPosition         = math.InverseRotateFast(parent.rotation, worldOffset);
+                newLocalPosition         = LatiosMath.InverseRotateFast(parent.rotation, worldOffset);
                 // This select here avoids precision loss for the axes we want to keep.
                 worldPosition = math.select(parent.position + worldOffset, worldOffset, keepWorld);
             }
@@ -185,11 +185,11 @@ namespace Latios.Transforms
                 keepWorldPosition.y      = (flags & InheritanceFlags.WorldY) != InheritanceFlags.Normal;
                 keepWorldPosition.z      = (flags & InheritanceFlags.WorldZ) != InheritanceFlags.Normal;
                 var originalWorldOffset  = worldTransform.position - parent.position;
-                var parentRelativeOffset = math.InverseRotateFast(parent.rotation, originalWorldOffset);
+                var parentRelativeOffset = LatiosMath.InverseRotateFast(parent.rotation, originalWorldOffset);
                 parentRelativeOffset     = math.select(parentRelativeOffset, float3.zero, bad);
                 var worldOffset          = math.rotate(parent.rotation, parentRelativeOffset);
                 worldOffset              = math.select(worldOffset, originalWorldOffset, keepWorldPosition);
-                newLocalPosition         = math.InverseRotateFast(parent.rotation, worldOffset);
+                newLocalPosition         = LatiosMath.InverseRotateFast(parent.rotation, worldOffset);
                 // This select here avoids precision loss for the axes we want to keep.
                 worldTransform.position = math.select(parent.position + worldOffset, worldOffset, keepWorldPosition);
 

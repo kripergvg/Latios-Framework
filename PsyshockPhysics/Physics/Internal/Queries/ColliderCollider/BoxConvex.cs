@@ -152,7 +152,7 @@ namespace Latios.Psyshock
             {
                 contactNormal = math.normalize(distanceResult.normalA - distanceResult.normalB);
             }
-            var aLocalContactNormal = math.InverseRotateFast(convexTransform.rot, contactNormal);
+            var aLocalContactNormal = LatiosMath.InverseRotateFast(convexTransform.rot, contactNormal);
             contactNormal           = -contactNormal;
 
             ref var blob       = ref convex.convexColliderBlob.Value;
@@ -163,7 +163,7 @@ namespace Latios.Psyshock
             if (dimensions == 3)
             {
                 var bInATransform       = math.mul(math.inverse(convexTransform), boxTransform);
-                var bLocalContactNormal = math.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
+                var bLocalContactNormal = LatiosMath.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
                 PointRayConvex.BestFacePlane(ref convex.convexColliderBlob.Value,
                                              aLocalContactNormal * invScale,
                                              distanceResult.featureCodeA,
@@ -309,7 +309,7 @@ namespace Latios.Psyshock
                     aPlane = mathex.Flip(aPlane);
 
                 var bInATransform       = math.mul(math.inverse(convexTransform), boxTransform);
-                var bLocalContactNormal = math.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
+                var bLocalContactNormal = LatiosMath.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
                 PointRayBox.BestFacePlanesAndVertices(in box, bLocalContactNormal, out var bEdgePlaneNormals, out _, out var bPlane, out var bVertices);
                 bPlane                                 = mathex.TransformPlane(bInATransform, bPlane);
                 bVertices                              = simd.transform(bInATransform, bVertices);

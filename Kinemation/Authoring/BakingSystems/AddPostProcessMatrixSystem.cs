@@ -82,7 +82,7 @@ namespace Latios.Kinemation.Authoring.Systems
                         }
                         if ((ta.RuntimeTransformUsage & RuntimeTransformComponentFlags.PostTransformMatrix) != 0)
                         {
-                            ppms[i] = new PostProcessMatrix { postProcessMatrix = float3x4.identity };
+                            ppms[i] = new PostProcessMatrix { postProcessMatrix = LatiosMath.Float3x4Identity };
                         }
                         else
                         {
@@ -101,7 +101,7 @@ namespace Latios.Kinemation.Authoring.Systems
                         }
                         if ((ta.RuntimeTransformUsage & RuntimeTransformComponentFlags.PostTransformMatrix) != 0)
                         {
-                            ecb.AddComponent(unfilteredChunkIndex, entities[i], new PostProcessMatrix { postProcessMatrix = float3x4.identity });
+                            ecb.AddComponent(unfilteredChunkIndex, entities[i], new PostProcessMatrix { postProcessMatrix = LatiosMath.Float3x4Identity });
                         }
                     }
                 }

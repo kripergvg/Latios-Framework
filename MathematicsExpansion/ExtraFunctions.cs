@@ -1,10 +1,9 @@
-﻿using System;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using Unity.Mathematics;
 
-namespace Unity.Mathematics
+namespace Latios
 {
-    public static partial class math
+    public static class LatiosMath
     {
         /// <summary>Returns b if c is true, a otherwise.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -72,7 +71,7 @@ namespace Unity.Mathematics
         /// <returns>The resulting vector or point</returns>
         public static float3 InverseRotateFast(quaternion normalizedRotation, float3 vector)
         {
-            return rotate(conjugate(normalizedRotation), vector);
+            return math.rotate(math.conjugate(normalizedRotation), vector);
         }
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace Unity.Mathematics
         /// <returns>The resulting quaternion that is rotated</returns>
         public static quaternion InverseRotateFast(quaternion normalizedRotation, quaternion rotationToBeRotated)
         {
-            return mul(conjugate(normalizedRotation), rotationToBeRotated);
+            return math.mul(math.conjugate(normalizedRotation), rotationToBeRotated);
         }
 
         /// <summary>
@@ -105,14 +104,11 @@ namespace Unity.Mathematics
         /// <returns>The resulting point</returns>
         public static RigidTransform InverseTransformFast(in RigidTransform a, in RigidTransform b)
         {
-            var inverseRot = conjugate(a.rot);
-            return new RigidTransform(mul(inverseRot, b.rot), rotate(inverseRot, b.pos - a.pos));
+            var inverseRot = math.conjugate(a.rot);
+            return new RigidTransform(math.mul(inverseRot, b.rot), math.rotate(inverseRot, b.pos - a.pos));
         }
-    }
 
-    public partial struct float3x4
-    {
-        public static float3x4 TRS(float3 translation, quaternion rotation, float3 scale)
+        public static float3x4 Float3x4TRS(float3 translation, quaternion rotation, float3 scale)
         {
             float3x3 r = new float3x3(rotation);
             return new float3x4((r.c0 * scale.x),
@@ -121,7 +117,7 @@ namespace Unity.Mathematics
                                 (translation   ));
         }
 
-        public static float3x4 Scale(float3 scale)
+        public static float3x4 Float3x4Scale(float3 scale)
         {
             return new float3x4(new float3(scale.x, 0f, 0f),
                                 new float3(0f, scale.y, 0f),
@@ -129,7 +125,7 @@ namespace Unity.Mathematics
                                 float3.zero);
         }
 
-        public static readonly float3x4 identity = new float3x4(new float3(1f, 0f, 0f), new float3(0f, 1f, 0f), new float3(0f, 0f, 1f), float3.zero);
+        public static readonly float3x4 Float3x4Identity = new float3x4(new float3(1f, 0f, 0f), new float3(0f, 1f, 0f), new float3(0f, 0f, 1f), float3.zero);
     }
 }
 

@@ -55,7 +55,7 @@ namespace Latios.Psyshock
         {
             parameters = new Rotation1DMotorJacobianParameters
             {
-                inertialRotationAInInertialPoseBSpace = math.normalize(math.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
+                inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
                 jointRotationInInertialPoseASpace     = jointRotationInInertialPoseASpace,
                 jointRotationInInertialPoseBSpace     = jointRotationInInertialPoseBSpace,
                 axisInInertialPoseASpace              = new float3x3(jointRotationInInertialPoseASpace)[axisIndex],
@@ -79,7 +79,7 @@ namespace Latios.Psyshock
         public static void UpdateJacobian(ref Rotation1DMotorJacobianParameters parameters,
                                           quaternion inertialPoseWorldRotationA, quaternion inertialPoseWorldRotationB)
         {
-            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(math.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
+            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
             parameters.initialError                          = CalculateRotation1DMotorError(in parameters, parameters.inertialRotationAInInertialPoseBSpace, out _);
         }
 
@@ -130,7 +130,7 @@ namespace Latios.Psyshock
         static float CalculateRotation1DMotorError(in Rotation1DMotorJacobianParameters parameters, quaternion motionBFromA, out float currentAngle)
         {
             // Calculate the relative joint frame rotation
-            quaternion jointBFromA = math.mul(math.InverseRotateFast(parameters.jointRotationInInertialPoseBSpace, motionBFromA), parameters.jointRotationInInertialPoseASpace);
+            quaternion jointBFromA = math.mul(LatiosMath.InverseRotateFast(parameters.jointRotationInInertialPoseBSpace, motionBFromA), parameters.jointRotationInInertialPoseASpace);
 
             // extract current axis and angle between the two joint frames
             ((Quaternion)jointBFromA).ToAngleAxis(out var angleDeg, out var axis);

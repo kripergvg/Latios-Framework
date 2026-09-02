@@ -20,7 +20,7 @@ namespace Latios.Psyshock
                                           in RigidTransform sphereTransform,
                                           float maxDistance)
         {
-            var    sphereInTriangleSpaceTransform = math.InverseTransformFast(in triangleTransform, in sphereTransform);
+            var    sphereInTriangleSpaceTransform = LatiosMath.InverseTransformFast(in triangleTransform, in sphereTransform);
             float3 sphereCenterInTriangleSpace    = math.transform(sphereInTriangleSpaceTransform, sphere.center);
             return PointRayTriangle.PointTriangleWithin(sphereCenterInTriangleSpace, in triangle, maxDistance + sphere.radius);
         }
@@ -32,7 +32,7 @@ namespace Latios.Psyshock
                                            float maxDistance,
                                            out ColliderDistanceResult result)
         {
-            var            sphereInTriangleSpaceTransform = math.InverseTransformFast(in triangleTransform, in sphereTransform);
+            var            sphereInTriangleSpaceTransform = LatiosMath.InverseTransformFast(in triangleTransform, in sphereTransform);
             float3         sphereCenterInTriangleSpace    = math.transform(sphereInTriangleSpaceTransform, sphere.center);
             SphereCollider sphereInTriangleSpace          = new SphereCollider(sphereCenterInTriangleSpace, sphere.radius);
             bool           hit                            = TriangleSphereDistance(in triangle,

@@ -47,7 +47,7 @@ namespace Latios.Psyshock
         {
             parameters = new Rotation2DConstraintJacobianParameters
             {
-                inertialRotationAInInertialPoseBSpace = math.normalize(math.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
+                inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
                 axisAInInertialPoseASpace             = new float3x3(jointRotationInInertialPoseASpace)[freeAxisIndex],
                 axisBInInertialPoseBSpace             = new float3x3(jointRotationInInertialPoseBSpace)[freeAxisIndex],
                 minAngle                              = minAngle,
@@ -74,7 +74,7 @@ namespace Latios.Psyshock
         public static void UpdateJacobian(ref Rotation2DConstraintJacobianParameters parameters,
                                           quaternion inertialPoseWorldRotationA, quaternion inertialPoseWorldRotationB)
         {
-            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(math.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
+            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
             float3 axisAinB                                  = math.mul(parameters.inertialRotationAInInertialPoseBSpace, parameters.axisAInInertialPoseASpace);
             float  sinAngle                                  = math.length(math.cross(axisAinB, parameters.axisBInInertialPoseBSpace));
             float  cosAngle                                  = math.dot(axisAinB, parameters.axisBInInertialPoseBSpace);

@@ -29,7 +29,7 @@ namespace Latios.Psyshock
         {
             ApplyFieldImpulse(ref velocity, in mass, impulse);
             var angularImpulse  = math.cross(point - inertialPoseWorldTransform.pos, impulse);
-            velocity.angular   += math.InverseRotateFast(inertialPoseWorldTransform.rot, angularImpulse) * mass.inverseInertia;
+            velocity.angular   += LatiosMath.InverseRotateFast(inertialPoseWorldTransform.rot, angularImpulse) * mass.inverseInertia;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Latios.Psyshock
         public static void ApplyAngularImpulse(ref Velocity velocity, in Mass mass, in RigidTransform inertialPoseWorldTransform, float3 worldAxis, float impulse)
         {
             var wVec          = worldAxis * impulse;
-            var lVec          = math.InverseRotateFast(inertialPoseWorldTransform.rot, wVec);
+            var lVec          = LatiosMath.InverseRotateFast(inertialPoseWorldTransform.rot, wVec);
             velocity.angular += lVec * mass.inverseInertia;
         }
     }

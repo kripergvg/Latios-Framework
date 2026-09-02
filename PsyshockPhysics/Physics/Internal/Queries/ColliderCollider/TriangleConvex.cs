@@ -153,7 +153,7 @@ namespace Latios.Psyshock
             {
                 contactNormal = math.normalize(distanceResult.normalA - distanceResult.normalB);
             }
-            var aLocalContactNormal = math.InverseRotateFast(convexTransform.rot, contactNormal);
+            var aLocalContactNormal = LatiosMath.InverseRotateFast(convexTransform.rot, contactNormal);
             contactNormal           = -contactNormal;
 
             ref var blob       = ref convex.convexColliderBlob.Value;
@@ -164,7 +164,7 @@ namespace Latios.Psyshock
             if (dimensions == 3)
             {
                 var bInATransform       = math.mul(math.inverse(convexTransform), triangleTransform);
-                var bLocalContactNormal = math.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
+                var bLocalContactNormal = LatiosMath.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
                 var triangleBinA        = new TriangleCollider(math.transform(bInATransform, triangle.pointA), math.transform(bInATransform, triangle.pointB),
                                                                math.transform(bInATransform, triangle.pointC));
                 PointRayConvex.BestFacePlane(ref convex.convexColliderBlob.Value,
@@ -471,7 +471,7 @@ namespace Latios.Psyshock
                     aPlane = mathex.Flip(aPlane);
 
                 var bInATransform       = math.mul(math.inverse(convexTransform), triangleTransform);
-                var bLocalContactNormal = math.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
+                var bLocalContactNormal = LatiosMath.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
                 var triangleBinA        = new TriangleCollider(math.transform(bInATransform, triangle.pointA), math.transform(bInATransform, triangle.pointB),
                                                                math.transform(bInATransform, triangle.pointC));
                 PointRayTriangle.BestFacePlanesAndVertices(in triangleBinA,

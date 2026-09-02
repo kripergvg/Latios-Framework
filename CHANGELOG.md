@@ -10,6 +10,17 @@ You can find changelogs for the individual modules in the [official Latios
 Framework Documentation
 repository](https://github.com/Dreaming381/Latios-Framework-Documentation).
 
+## [0.15.12-fastcombat.1] – 2026-9-2
+
+Supports Unity 6000.6 core packages.
+
+### Changed
+
+-   Moved the Mathematics expansion helpers into `Latios.Core`, because Unity
+    Mathematics is now implemented by an engine module and its compatibility
+    package contains type forwarders.
+-   Updated package dependencies to the Unity 6000.6 core-package versions.
+
 ## [0.15.12] – 2026-7-25
 
 Officially supports Entities [1.4.8]
