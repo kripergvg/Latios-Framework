@@ -20,7 +20,7 @@ namespace Latios.Psyshock
                                           in RigidTransform sphereTransform,
                                           float maxDistance)
         {
-            var    sphereInBoxSpaceTransform = LatiosMath.InverseTransformFast(in boxTransform, in sphereTransform);
+            var    sphereInBoxSpaceTransform = LatiosMathExtensions.InverseTransformFast(in boxTransform, in sphereTransform);
             float3 sphereCenterInBoxSpace    = math.transform(sphereInBoxSpaceTransform, sphere.center);
             Unity.Burst.CompilerServices.Hint.Assume(sphere.radius >= 0f);
             return PointRayBox.PointBoxWithin(sphereCenterInBoxSpace, in box, maxDistance + sphere.radius);
@@ -33,7 +33,7 @@ namespace Latios.Psyshock
                                            float maxDistance,
                                            out ColliderDistanceResult result)
         {
-            var            sphereInBoxSpaceTransform = LatiosMath.InverseTransformFast(in boxTransform, in sphereTransform);
+            var            sphereInBoxSpaceTransform = LatiosMathExtensions.InverseTransformFast(in boxTransform, in sphereTransform);
             float3         sphereCenterInBoxSpace    = math.transform(sphereInBoxSpaceTransform, sphere.center);
             SphereCollider sphereInBoxSpace          = new SphereCollider(sphereCenterInBoxSpace, sphere.radius);
             bool           hit                       = BoxSphereDistance(in box,

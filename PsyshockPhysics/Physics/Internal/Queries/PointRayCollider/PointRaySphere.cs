@@ -13,14 +13,14 @@ namespace Latios.Psyshock
 
         public static bool WithinDistance(float3 point, in SphereCollider sphere, in RigidTransform sphereTransform, float maxDistance)
         {
-            var pointInSphereSpace = LatiosMath.InverseTransformFast(sphereTransform, point);
+            var pointInSphereSpace = LatiosMathExtensions.InverseTransformFast(sphereTransform, point);
             var threshold          = math.square(sphere.radius + maxDistance);
             return math.distancesq(pointInSphereSpace, sphere.center) <= threshold;
         }
 
         public static bool DistanceBetween(float3 point, in SphereCollider sphere, in RigidTransform sphereTransform, float maxDistance, out PointDistanceResult result)
         {
-            var  pointInSphereSpace = LatiosMath.InverseTransformFast(sphereTransform, point);
+            var  pointInSphereSpace = LatiosMathExtensions.InverseTransformFast(sphereTransform, point);
             bool hit                = PointSphereDistance(pointInSphereSpace, in sphere, maxDistance, out var localResult, out _);
             result                  = new PointDistanceResult
             {

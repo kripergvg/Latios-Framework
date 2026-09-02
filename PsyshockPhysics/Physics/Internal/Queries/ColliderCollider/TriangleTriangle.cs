@@ -124,7 +124,7 @@ namespace Latios.Psyshock
                     {
                         aLocalContactNormal = math.normalize(distanceResult.normalA - distanceResult.normalB);
                     }
-                    aLocalContactNormal = LatiosMath.InverseRotateFast(aTransform.rot, aLocalContactNormal);
+                    aLocalContactNormal = LatiosMathExtensions.InverseRotateFast(aTransform.rot, aLocalContactNormal);
                     break;
                 }
                 case 2:  // A point and B face

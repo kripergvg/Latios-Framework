@@ -3,7 +3,7 @@ using Unity.Mathematics;
 
 namespace Latios
 {
-    public static class LatiosMath
+    public static class LatiosMathExtensions
     {
         /// <summary>Returns b if c is true, a otherwise.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

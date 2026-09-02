@@ -288,7 +288,7 @@ namespace Latios.Transforms
 
         public static float3x4 ToMatrix3x4(in this TransformQvvs transform)
         {
-            return LatiosMath.Float3x4TRS(transform.position, transform.rotation, transform.scale * transform.stretch);
+            return LatiosMathExtensions.Float3x4TRS(transform.position, transform.rotation, transform.scale * transform.stretch);
         }
 
         public static float4x4 ToMatrix4x4(in this TransformQvvs transform)
@@ -298,7 +298,7 @@ namespace Latios.Transforms
 
         public static float3x4 ToMatrix3x4(in this TransformQvs transform)
         {
-            return LatiosMath.Float3x4TRS(transform.position, transform.rotation, transform.scale);
+            return LatiosMathExtensions.Float3x4TRS(transform.position, transform.rotation, transform.scale);
         }
 
         public static float4x4 ToMatrix4x4(in this TransformQvs transform)
@@ -308,7 +308,7 @@ namespace Latios.Transforms
 
         public static float3x4 ToMatrix3x4(in this TransformQvs transform, float3 stretch)
         {
-            return LatiosMath.Float3x4TRS(transform.position, transform.rotation, transform.scale * stretch);
+            return LatiosMathExtensions.Float3x4TRS(transform.position, transform.rotation, transform.scale * stretch);
         }
 
         public static float4x4 ToMatrix4x4(in this TransformQvs transform, float3 stretch)
@@ -447,7 +447,7 @@ namespace Latios.Transforms
 
         public static float3 InverseTransformPoint(in TransformQvvs qvvs, float3 point)
         {
-            var localPoint = LatiosMath.InverseRotateFast(qvvs.rotation, point - qvvs.position);
+            var localPoint = LatiosMathExtensions.InverseRotateFast(qvvs.rotation, point - qvvs.position);
             var rcps       = math.rcp(new float4(qvvs.stretch, qvvs.scale));
             return localPoint * rcps.xyz * rcps.w;
         }
@@ -470,20 +470,20 @@ namespace Latios.Transforms
 
         public static float3 InverseTransformDirection(in TransformQvvs qvvs, float3 direction)
         {
-            return LatiosMath.InverseRotateFast(qvvs.rotation, direction);
+            return LatiosMathExtensions.InverseRotateFast(qvvs.rotation, direction);
         }
 
         public static float3 InverseTransformDirectionWithStretch(in TransformQvvs qvvs, float3 direction)
         {
             var magnitude = math.length(direction);
             var rcp       = math.rcp(qvvs.stretch);
-            return math.normalizesafe(LatiosMath.InverseRotateFast(qvvs.rotation, direction) * rcp) * magnitude;
+            return math.normalizesafe(LatiosMathExtensions.InverseRotateFast(qvvs.rotation, direction) * rcp) * magnitude;
         }
 
         public static float3 InverseTransformDirectionScaledAndStretched(in TransformQvvs qvvs, float3 direction)
         {
             var rcp = math.rcp(new float4(qvvs.stretch, qvvs.scale));
-            return LatiosMath.InverseRotateFast(qvvs.rotation, direction) * rcp.xyz * rcp.w;
+            return LatiosMathExtensions.InverseRotateFast(qvvs.rotation, direction) * rcp.xyz * rcp.w;
         }
 
         public static quaternion TransformRotation(in TransformQvvs qvvs, quaternion rotation)
@@ -498,12 +498,12 @@ namespace Latios.Transforms
 
         public static quaternion InverseTransformRotation(in TransformQvvs qvvs, quaternion rotation)
         {
-            return LatiosMath.InverseRotateFast(qvvs.rotation, rotation);
+            return LatiosMathExtensions.InverseRotateFast(qvvs.rotation, rotation);
         }
 
         public static quaternion InverseTransformRotationClean(in TransformQvvs qvvs, quaternion rotation)
         {
-            return math.normalize(LatiosMath.InverseRotateFast(qvvs.rotation, rotation));
+            return math.normalize(LatiosMathExtensions.InverseRotateFast(qvvs.rotation, rotation));
         }
 
         public static float TransformScale(in TransformQvvs qvvs, float scale) => qvvs.scale * scale;

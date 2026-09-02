@@ -50,7 +50,7 @@ namespace Latios.Psyshock
         {
             parameters = new Rotation1DConstraintJacobianParameters
             {
-                inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
+                inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMathExtensions.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
                 jointRotationInInertialPoseASpace     = jointRotationInInertialPoseASpace,
                 jointRotationInInertialPoseBSpace     = jointRotationInInertialPoseBSpace,
                 axisInInertialPoseASpace              = new float3x3(jointRotationInInertialPoseASpace)[axisIndex],
@@ -72,7 +72,7 @@ namespace Latios.Psyshock
         public static void UpdateJacobian(ref Rotation1DConstraintJacobianParameters parameters,
                                           quaternion inertialPoseWorldRotationA, quaternion inertialPoseWorldRotationB)
         {
-            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
+            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMathExtensions.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
             parameters.initialError                          = CalculateRotation1DConstraintError(in parameters, parameters.inertialRotationAInInertialPoseBSpace);
         }
 
@@ -115,7 +115,7 @@ namespace Latios.Psyshock
         static float CalculateRotation1DConstraintError(in Rotation1DConstraintJacobianParameters parameters, quaternion motionBFromA)
         {
             // Calculate the relative joint frame rotation
-            quaternion jointBFromA = math.mul(LatiosMath.InverseRotateFast(parameters.jointRotationInInertialPoseBSpace, motionBFromA), parameters.jointRotationInInertialPoseASpace);
+            quaternion jointBFromA = math.mul(LatiosMathExtensions.InverseRotateFast(parameters.jointRotationInInertialPoseBSpace, motionBFromA), parameters.jointRotationInInertialPoseASpace);
 
             // Find the twist angle of the rotation.
             //

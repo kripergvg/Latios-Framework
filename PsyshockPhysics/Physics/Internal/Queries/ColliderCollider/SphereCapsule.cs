@@ -21,7 +21,7 @@ namespace Latios.Psyshock
                                           in RigidTransform sphereTransform,
                                           float maxDistance)
         {
-            var    sphereInCapSpaceTransfrom = LatiosMath.InverseTransformFast(in capsuleTransform, in sphereTransform);
+            var    sphereInCapSpaceTransfrom = LatiosMathExtensions.InverseTransformFast(in capsuleTransform, in sphereTransform);
             float3 sphereCenterInCapSpace    = math.transform(sphereInCapSpaceTransfrom, sphere.center);
             return PointRayCapsule.PointCapsuleWithin(sphereCenterInCapSpace, in capsule, sphere.radius + maxDistance);
         }
@@ -33,7 +33,7 @@ namespace Latios.Psyshock
                                            float maxDistance,
                                            out ColliderDistanceResult result)
         {
-            var            sphereInCapSpaceTransfrom = LatiosMath.InverseTransformFast(in capsuleTransform, in sphereTransform);
+            var            sphereInCapSpaceTransfrom = LatiosMathExtensions.InverseTransformFast(in capsuleTransform, in sphereTransform);
             float3         sphereCenterInCapSpace    = math.transform(sphereInCapSpaceTransfrom, sphere.center);
             SphereCollider sphereInCapSpace          = new SphereCollider(sphereCenterInCapSpace, sphere.radius);
             bool           hit                       = CapsuleSphereDistance(capsule,

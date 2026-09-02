@@ -21,7 +21,7 @@ namespace Latios.Psyshock
                                           in RigidTransform bTransform,
                                           float maxDistance)
         {
-            var BinASpaceTransform = LatiosMath.InverseTransformFast(in aTransform, in bTransform);
+            var BinASpaceTransform = LatiosMathExtensions.InverseTransformFast(in aTransform, in bTransform);
             var bInASpaceA         = math.transform(BinASpaceTransform, capsuleB.pointA);
             var bInASpaceB         = math.transform(BinASpaceTransform, capsuleB.pointB);
 
@@ -36,7 +36,7 @@ namespace Latios.Psyshock
                                            float maxDistance,
                                            out ColliderDistanceResult result)
         {
-            var             bInASpaceTransform = LatiosMath.InverseTransformFast(in aTransform, in bTransform);
+            var             bInASpaceTransform = LatiosMathExtensions.InverseTransformFast(in aTransform, in bTransform);
             CapsuleCollider bInASpace          = new CapsuleCollider(math.transform(bInASpaceTransform, capsuleB.pointA),
                                                                      math.transform(bInASpaceTransform, capsuleB.pointB),
                                                                      capsuleB.radius);

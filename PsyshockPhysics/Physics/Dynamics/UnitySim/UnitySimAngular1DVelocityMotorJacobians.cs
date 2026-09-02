@@ -42,7 +42,7 @@ namespace Latios.Psyshock
         {
             parameters = new Angular1DVelocityMotorJacobianParameters
             {
-                inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
+                inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMathExtensions.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
                 axisIndex                             = axisIndex,
                 axisInInertialPoseASpace              = new float3x3(jointRotationInInertialPoseASpace)[axisIndex],
                 target                                = target,
@@ -60,7 +60,7 @@ namespace Latios.Psyshock
         public static void UpdateJacobian(ref Angular1DVelocityMotorJacobianParameters parameters,
                                           quaternion inertialPoseWorldRotationA, quaternion inertialPoseWorldRotationB)
         {
-            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
+            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMathExtensions.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
         }
 
         /// <summary>

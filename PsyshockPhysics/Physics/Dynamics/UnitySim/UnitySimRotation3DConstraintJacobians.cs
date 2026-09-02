@@ -44,7 +44,7 @@ namespace Latios.Psyshock
         {
             parameters = new Rotation3DConstraintJacobianParameters
             {
-                inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
+                inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMathExtensions.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA)),
                 jointOrientationBindFrame             = math.inverse(math.mul(jointRotationInInertialPoseBSpace, jointRotationInInertialPoseASpace)),
                 minAngle                              = minAngle,
                 maxAngle                              = maxAngle,
@@ -68,7 +68,7 @@ namespace Latios.Psyshock
         public static void UpdateJacobian(ref Rotation3DConstraintJacobianParameters parameters,
                                           quaternion inertialPoseWorldRotationA, quaternion inertialPoseWorldRotationB)
         {
-            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMath.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
+            parameters.inertialRotationAInInertialPoseBSpace = math.normalize(LatiosMathExtensions.InverseRotateFast(inertialPoseWorldRotationB, inertialPoseWorldRotationA));
             quaternion jointOrientation                      = math.mul(parameters.jointOrientationBindFrame, parameters.inertialRotationAInInertialPoseBSpace);
             float      initialAngle                          = math.asin(math.length(jointOrientation.value.xyz)) * 2.0f;
             parameters.initialError                          = CalculateError(initialAngle, parameters.minAngle, parameters.maxAngle);

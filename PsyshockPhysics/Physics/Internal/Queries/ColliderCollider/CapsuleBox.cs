@@ -12,7 +12,7 @@ namespace Latios.Psyshock
                                           in CapsuleCollider capsule,
                                           in RigidTransform capsuleTransform)
         {
-            var capInBoxSpaceTransform = LatiosMath.InverseTransformFast(in boxTransform, in capsuleTransform);
+            var capInBoxSpaceTransform = LatiosMathExtensions.InverseTransformFast(in boxTransform, in capsuleTransform);
             var capsuleInBoxSpace      = new CapsuleCollider(math.transform(capInBoxSpaceTransform, capsule.pointA),
                                                              math.transform(capInBoxSpaceTransform, capsule.pointB),
                                                              capsule.radius);
@@ -25,7 +25,7 @@ namespace Latios.Psyshock
                                           in RigidTransform capsuleTransform,
                                           float maxDistance)
         {
-            var capInBoxSpaceTransform = LatiosMath.InverseTransformFast(in boxTransform, in capsuleTransform);
+            var capInBoxSpaceTransform = LatiosMathExtensions.InverseTransformFast(in boxTransform, in capsuleTransform);
             var capsuleInBoxSpace      = new CapsuleCollider(math.transform(capInBoxSpaceTransform, capsule.pointA),
                                                              math.transform(capInBoxSpaceTransform, capsule.pointB),
                                                              capsule.radius);
@@ -39,7 +39,7 @@ namespace Latios.Psyshock
                                            float maxDistance,
                                            out ColliderDistanceResult result)
         {
-            var capInBoxSpaceTransform = LatiosMath.InverseTransformFast(in boxTransform, in capsuleTransform);
+            var capInBoxSpaceTransform = LatiosMathExtensions.InverseTransformFast(in boxTransform, in capsuleTransform);
             var capsuleInBoxSpace      = new CapsuleCollider(math.transform(capInBoxSpaceTransform, capsule.pointA),
                                                              math.transform(capInBoxSpaceTransform, capsule.pointB),
                                                              capsule.radius);
@@ -288,7 +288,7 @@ namespace Latios.Psyshock
             UnitySim.ContactsBetweenResult result = default;
             result.contactNormal                  = distanceResult.normalB;
 
-            var boxLocalContactNormal = LatiosMath.InverseRotateFast(boxTransform.rot, -distanceResult.normalB);
+            var boxLocalContactNormal = LatiosMathExtensions.InverseRotateFast(boxTransform.rot, -distanceResult.normalB);
             PointRayBox.BestFacePlanesAndVertices(in box, boxLocalContactNormal, out var edgePlaneNormals, out var edgePlaneDistances, out var plane, out _);
 
             var  bInATransform     = math.mul(math.inverse(boxTransform), capsuleTransform);

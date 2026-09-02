@@ -171,7 +171,7 @@ namespace Latios.Psyshock
             UnitySim.ContactsBetweenResult result = default;
             result.contactNormal                  = distanceResult.normalB;
 
-            var triangleLocalContactNormal = LatiosMath.InverseRotateFast(triangleTransform.rot, -distanceResult.normalB);
+            var triangleLocalContactNormal = LatiosMathExtensions.InverseRotateFast(triangleTransform.rot, -distanceResult.normalB);
             PointRayTriangle.BestFacePlanesAndVertices(in triangle, triangleLocalContactNormal, out var edgePlaneNormals, out var edgePlaneDistances, out var plane, out _);
 
             bool needsClosestPoint = math.abs(math.dot(triangleLocalContactNormal, plane.normal)) < 0.05f;

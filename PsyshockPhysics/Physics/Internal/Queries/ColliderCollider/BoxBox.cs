@@ -19,8 +19,8 @@ namespace Latios.Psyshock
             aOffsetTransform.pos += math.rotate(aTransform.rot, boxA.center);
             var bOffsetTransform  = bTransform;
             bOffsetTransform.pos += math.rotate(bTransform.rot, boxB.center);
-            var bInATransform     = LatiosMath.InverseTransformFast(in aOffsetTransform, in bOffsetTransform);
-            var aInBTransform     = LatiosMath.InverseTransformFast(in bOffsetTransform, in aOffsetTransform);
+            var bInATransform     = LatiosMathExtensions.InverseTransformFast(in aOffsetTransform, in bOffsetTransform);
+            var aInBTransform     = LatiosMathExtensions.InverseTransformFast(in bOffsetTransform, in aOffsetTransform);
             return BoxBoxOverlapping(boxA.halfSize, boxB.halfSize, in bInATransform, in aInBTransform);
         }
 
@@ -34,8 +34,8 @@ namespace Latios.Psyshock
             aOffsetTransform.pos += math.rotate(aTransform.rot, boxA.center);
             var bOffsetTransform  = bTransform;
             bOffsetTransform.pos += math.rotate(bTransform.rot, boxB.center);
-            var bInATransform     = LatiosMath.InverseTransformFast(in aOffsetTransform, in bOffsetTransform);
-            var aInBTransform     = LatiosMath.InverseTransformFast(in bOffsetTransform, in aOffsetTransform);
+            var bInATransform     = LatiosMathExtensions.InverseTransformFast(in aOffsetTransform, in bOffsetTransform);
+            var aInBTransform     = LatiosMathExtensions.InverseTransformFast(in bOffsetTransform, in aOffsetTransform);
             return BoxBoxWithin(boxA.halfSize, boxB.halfSize, in bInATransform, in aInBTransform, maxDistance);
         }
 
@@ -50,8 +50,8 @@ namespace Latios.Psyshock
             aOffsetTransform.pos += math.rotate(aTransform.rot, boxA.center);
             var bOffsetTransform  = bTransform;
             bOffsetTransform.pos += math.rotate(bTransform.rot, boxB.center);
-            var bInATransform     = LatiosMath.InverseTransformFast(in aOffsetTransform, in bOffsetTransform);
-            var aInBTransform     = LatiosMath.InverseTransformFast(in bOffsetTransform, in aOffsetTransform);
+            var bInATransform     = LatiosMathExtensions.InverseTransformFast(in aOffsetTransform, in bOffsetTransform);
+            var aInBTransform     = LatiosMathExtensions.InverseTransformFast(in bOffsetTransform, in aOffsetTransform);
 
             var hit = BoxBoxDistance(boxA.halfSize, boxB.halfSize, in bInATransform, in aInBTransform, maxDistance, out var localResult);
             //var altHit = BoxBoxDistanceReference(boxA.halfSize, boxB.halfSize, in bInATransform, in aInBTransform, maxDistance, out var localResult2);
@@ -151,7 +151,7 @@ namespace Latios.Psyshock
                     {
                         aLocalContactNormal = math.normalize(distanceResult.normalA - distanceResult.normalB);
                     }
-                    aLocalContactNormal = LatiosMath.InverseRotateFast(aTransform.rot, aLocalContactNormal);
+                    aLocalContactNormal = LatiosMathExtensions.InverseRotateFast(aTransform.rot, aLocalContactNormal);
                     usesContactDir      = true;
                     break;
                 }
@@ -227,7 +227,7 @@ namespace Latios.Psyshock
             {
                 result.contactNormal = math.rotate(aTransform, -aLocalContactNormal);
 
-                var bLocalContactNormal = LatiosMath.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
+                var bLocalContactNormal = LatiosMathExtensions.InverseRotateFast(bInATransform.rot, -aLocalContactNormal);
                 PointRayBox.BestFacePlanesAndVertices(in boxA, aLocalContactNormal, out var aEdgePlaneNormals, out var aEdgePlaneDistances, out var aPlane, out var aVertices);
                 PointRayBox.BestFacePlanesAndVertices(in boxB, bLocalContactNormal, out var bEdgePlaneNormals, out _,                       out var bPlane, out var bVertices);
                 bPlane                                 = mathex.TransformPlane(bInATransform, bPlane);
@@ -302,7 +302,7 @@ namespace Latios.Psyshock
                     {
                         aLocalContactNormal = math.normalize(distanceResult.normalA - distanceResult.normalB);
                     }
-                    aLocalContactNormal = LatiosMath.InverseRotateFast(aTransform.rot, aLocalContactNormal);
+                    aLocalContactNormal = LatiosMathExtensions.InverseRotateFast(aTransform.rot, aLocalContactNormal);
                     result              = default;
                 }
             }

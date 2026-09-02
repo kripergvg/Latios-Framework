@@ -101,7 +101,7 @@ namespace Latios.Psyshock
                 {
                     blobTransform      = blob.transforms[index];
                     blobTransform.pos *= scale * stretch;
-                    var localStretch   = LatiosMath.InverseRotateFast(blobTransform.rot, stretch);
+                    var localStretch   = LatiosMathExtensions.InverseRotateFast(blobTransform.rot, stretch);
                     blobCollider       = blob.colliders[index];
                     Physics.ScaleStretchCollider(ref blobCollider, scale, localStretch);
                     break;
