@@ -33,12 +33,12 @@ namespace Latios.Kinemation.Authoring.Systems
                     var link = bone.GetComponent<HideThis.ShadowCloneTracker>();
                     if (link != null)
                     {
-                        var id = link.source.gameObject.GetInstanceID();
+                        var source = (UnityObjectRef<UnityEngine.GameObject>)link.source.gameObject;
 
                         int i = 0;
                         foreach (var go in gameObjectRefs)
                         {
-                            if (go.authoringGameObjectForBone.GetHashCode() == id)
+                            if (go.authoringGameObjectForBone.Equals(source))
                             {
                                 sockets.ElementAt(i).boneIndex = currentIndex;
                                 break;

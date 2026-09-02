@@ -7,9 +7,9 @@ namespace Unity.Entities.Exposed
 {
     public static class IBakerExposedExtensions
     {
-        public static int GetAuthoringInstancedID(this IBaker baker)
+        public static UnityEngine.EntityId GetAuthoringEntityId(this IBaker baker)
         {
-            return baker._State.AuthoringSource.GetInstanceID();
+            return baker._State.AuthoringSource.GetEntityId();
         }
 
         public static UnityEngine.Object GetAuthoringObjectForDebugDiagnostics(this IBaker baker)
