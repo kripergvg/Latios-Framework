@@ -3,6 +3,7 @@
     "rootNamespace": "Latios.MachAxle",
     "references": [
         "Latios.Core",
+        "Unity.NetCode",
         "Latios.Kinemation",
         "Unity.Entities",
         "Unity.Collections",

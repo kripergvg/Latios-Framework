@@ -3,6 +3,7 @@
     "rootNamespace": "Latios.Editor",
     "references": [
         "Latios.Core",
+        "Unity.NetCode",
         "Unity.Entities",
         "Unity.Platforms.UI.Editor",
         "Unity.Collections"

@@ -3,6 +3,7 @@
     "rootNamespace": "Latios.Calci",
     "references": [
         "Latios.Core",
+        "Unity.NetCode",
         "Latios.Transforms",
         "Unity.Burst",
         "Unity.Collections",

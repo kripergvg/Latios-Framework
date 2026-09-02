@@ -3,6 +3,7 @@
     "rootNamespace": "Latios.Myri",
     "references": [
         "Latios.Core",
+        "Unity.NetCode",
         "Latios.AuxEcs",
         "Latios.Transforms",
         "Latios.Calci",

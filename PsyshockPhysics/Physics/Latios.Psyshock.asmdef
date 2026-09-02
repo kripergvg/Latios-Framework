@@ -3,6 +3,7 @@
     "rootNamespace": "Latios.Psyshock",
     "references": [
         "Latios.Core",
+        "Unity.NetCode",
         "Latios.Calci",
         "Latios.Transforms",
         "Unity.Entities",

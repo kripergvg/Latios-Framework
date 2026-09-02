@@ -13,6 +13,7 @@
         "Latios.Transforms",
         "Unity.Entities.Editor",
         "Latios.Core",
+        "Unity.NetCode",
         "Unity.ShaderGraph.Editor"
     ],
     "includePlatforms": [

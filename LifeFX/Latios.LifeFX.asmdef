@@ -3,6 +3,7 @@
     "rootNamespace": "Latios.LifeFX",
     "references": [
         "Latios.Core",
+        "Unity.NetCode",
         "Latios.Transforms",
         "Latios.Psyshock",
         "Latios.Kinemation",
