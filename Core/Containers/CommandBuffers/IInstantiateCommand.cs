@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Latios.Unsafe;
 using Unity.Burst;
 using Unity.Collections;
@@ -69,6 +70,7 @@ namespace Latios
             }
         }
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void OnPlayback(ref Context context);
 
         /// <summary>

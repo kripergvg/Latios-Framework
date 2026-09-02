@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -22,6 +23,7 @@ namespace Latios.Unsafe.InternalSourceGen
             };
         }
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void BurstDispatchVptrDelegate(ContextPtr context, int operation);
 
         public unsafe struct VPtr

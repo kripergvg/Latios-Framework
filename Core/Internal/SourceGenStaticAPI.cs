@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -32,6 +33,7 @@ namespace Latios.InternalSourceGen
             public void* ptr;
         }
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void BurstDispatchCollectionComponentDelegate(ContextPtr context, int operation);
 
         public static void BurstDispatchCollectionComponent<T>(ContextPtr context, int operation) where T : unmanaged, ICollectionComponentSourceGenerated, ICollectionComponent

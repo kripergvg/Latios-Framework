@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
@@ -20,6 +21,7 @@ namespace InternalSourceGen
             public static implicit operator ContextPtr(void* rawPte) => new ContextPtr { ptr = rawPte };
         }
 
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void BurstDispatchScriptDelegate(ContextPtr context, int operation);
     }
 }
