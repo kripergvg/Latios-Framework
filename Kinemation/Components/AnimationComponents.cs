@@ -564,7 +564,7 @@ namespace Latios.Kinemation
         {
             // This implementation is assuming that clips tend to have a very small number of events.
             // If this assumption breaks, binary searching can be implemented.
-            bool backwards = math.select(loopCycleTransitions < 0f, currentTime < previousTime, loopCycleTransitions == 0f);
+            bool backwards = LatiosMathExtensions.Select(loopCycleTransitions < 0f, currentTime < previousTime, loopCycleTransitions == 0f);
             if (!backwards)
             {
                 int start = 0;

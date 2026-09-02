@@ -192,11 +192,11 @@ namespace Latios.Kinemation.Systems
                         ulong upper    = 0;
                         for (int j = 0; j < math.min(chunk.Count, 64); j++)
                         {
-                            lower |= math.select(0ul, 1ul, includeExcludeFilter.EntityPassesFilter(entities[j].Index)) << j;
+                            lower |= math.select(0ul, 1ul, includeExcludeFilter.EntityPassesFilter(entities[j])) << j;
                         }
                         for (int j = 64; j < chunk.Count; j++)
                         {
-                            upper |= math.select(0ul, 1ul, includeExcludeFilter.EntityPassesFilter(entities[j].Index)) << (j - 64);
+                            upper |= math.select(0ul, 1ul, includeExcludeFilter.EntityPassesFilter(entities[j])) << (j - 64);
                         }
 
                         chunkPerCameraMasks[i].lower.Value &= lower;

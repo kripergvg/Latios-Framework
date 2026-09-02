@@ -31,10 +31,10 @@ namespace Latios.Kinemation.Systems
                 return default;
 
             using var         marker                    = m_latiosPerformCullingMarker.Auto();
-            var               wrappedIncludeExcludeList = new WrappedPickingIncludeExcludeList(batchCullingContext.viewType);
+            using var         wrappedIncludeExcludeList = new WrappedPickingIncludeExcludeList(batchCullingContext.viewType);
             fixed (Unmanaged* unmanaged                 = &m_unmanaged)
             {
-                if (DoOnPerformCullingBegin(unmanaged, ref CheckedStateRef, ref batchCullingContext, ref cullingOutput, ref wrappedIncludeExcludeList))
+                if (DoOnPerformCullingBegin(unmanaged, ref CheckedStateRef, ref batchCullingContext, ref cullingOutput, wrappedIncludeExcludeList))
                 {
                     SuperSystem.UpdateSystem(latiosWorldUnmanaged, m_cullingSuperSystem.SystemHandle);
                     DoOnPerformCullingEnd(unmanaged, out var result);
@@ -50,9 +50,9 @@ namespace Latios.Kinemation.Systems
                                             ref SystemState state,
                                             ref BatchCullingContext batchCullingContext,
                                             ref BatchCullingOutput cullingOutput,
-                                            ref WrappedPickingIncludeExcludeList wrappedIncludeExcludeList)
+                                            WrappedPickingIncludeExcludeList wrappedIncludeExcludeList)
         {
-            return unmanaged->OnPerformCullingBegin(ref state, ref batchCullingContext, ref cullingOutput, ref wrappedIncludeExcludeList);
+            return unmanaged->OnPerformCullingBegin(ref state, ref batchCullingContext, ref cullingOutput, wrappedIncludeExcludeList);
         }
 
         [BurstCompile]
@@ -72,7 +72,7 @@ namespace Latios.Kinemation.Systems
             public bool OnPerformCullingBegin(ref SystemState state,
                                               ref BatchCullingContext batchCullingContext,
                                               ref BatchCullingOutput cullingOutput,
-                                              ref WrappedPickingIncludeExcludeList wrappedIncludeExcludeList)
+                                              WrappedPickingIncludeExcludeList wrappedIncludeExcludeList)
             {
                 cullingOutput.customCullingResult[0] = (IntPtr)m_cullPassIndexThisFrame;
 
@@ -162,10 +162,9 @@ namespace Latios.Kinemation.Systems
             }
         }
 
-        struct WrappedPickingIncludeExcludeList
+        struct WrappedPickingIncludeExcludeList : IDisposable
         {
 #if ENABLE_PICKING && !DISABLE_INCLUDE_EXCLUDE_LIST_FILTERING
-#if UNITY_6000_3_OR_NEWER
             public PickingIncludeExcludeEntityIdList includeExcludeList;
 
             public WrappedPickingIncludeExcludeList(BatchCullingViewType viewType)
@@ -177,22 +176,17 @@ namespace Latios.Kinemation.Systems
                     includeExcludeList = HandleUtility.GetSelectionOutlineIncludeExcludeEntityIdList(Allocator.Temp);
             }
 #else
-            public PickingIncludeExcludeList includeExcludeList;
+            public WrappedPickingIncludeExcludeList(BatchCullingViewType viewType)
+            {
+            }
+#endif
 
-            public WrappedPickingIncludeExcludeList(BatchCullingViewType viewType)
+            public void Dispose()
             {
-                includeExcludeList = default;
-                if (viewType == BatchCullingViewType.Picking)
-                    includeExcludeList = HandleUtility.GetPickingIncludeExcludeList(Allocator.Temp);
-                else if (viewType == BatchCullingViewType.SelectionOutline)
-                    includeExcludeList = HandleUtility.GetSelectionOutlineIncludeExcludeList(Allocator.Temp);
-            }
+#if ENABLE_PICKING && !DISABLE_INCLUDE_EXCLUDE_LIST_FILTERING
+                includeExcludeList.Dispose();
 #endif
-#else
-            public WrappedPickingIncludeExcludeList(BatchCullingViewType viewType)
-            {
             }
-#endif
         }
 
         // This function does only return a meaningful IncludeExcludeListFilter object when called from a BRG culling callback.
@@ -202,13 +196,8 @@ namespace Latios.Kinemation.Systems
                                                                                                     Allocator allocator)
         {
 #if ENABLE_PICKING && !DISABLE_INCLUDE_EXCLUDE_LIST_FILTERING
-#if UNITY_6000_3_OR_NEWER
             PickingIncludeExcludeEntityIdList includeExcludeList = wrappedIncludeExcludeList.includeExcludeList;
             NativeArray<EntityId>             emptyArray         = new NativeArray<EntityId>(0, Allocator.Temp);
-#else
-            PickingIncludeExcludeList includeExcludeList = wrappedIncludeExcludeList.includeExcludeList;
-            NativeArray<int>          emptyArray         = new NativeArray<int>(0, Allocator.Temp);
-#endif
 
             var includeEntityIndices = includeExcludeList.IncludeEntities;
             if (cullingContext.viewType == BatchCullingViewType.SelectionOutline)
@@ -232,14 +221,11 @@ namespace Latios.Kinemation.Systems
 
             IncludeExcludeListFilter includeExcludeListFilter = new IncludeExcludeListFilter(
                 entityManager,
-#if UNITY_6000_3_OR_NEWER
-                includeEntityIndices.Reinterpret<int>(),
-                excludeEntityIndices.Reinterpret<int>(),
-#else
                 includeEntityIndices,
                 excludeEntityIndices,
-#endif
                 allocator);
+
+            emptyArray.Dispose();
 
             return includeExcludeListFilter;
 #else

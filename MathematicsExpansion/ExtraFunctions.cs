@@ -7,28 +7,28 @@ namespace Latios
     {
         /// <summary>Returns b if c is true, a otherwise.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool select(bool a, bool b, bool c)
+        public static bool Select(bool a, bool b, bool c)
         {
             return a ^ ((a ^ b) & c);
         }
 
         /// <summary>Returns b if c is true, a otherwise.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 select(bool2 a, bool2 b, bool c)
+        public static bool2 Select(bool2 a, bool2 b, bool c)
         {
             return a ^ ((a ^ b) & c);
         }
 
         /// <summary>Returns b if c is true, a otherwise.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 select(bool3 a, bool3 b, bool c)
+        public static bool3 Select(bool3 a, bool3 b, bool c)
         {
             return a ^ ((a ^ b) & c);
         }
 
         /// <summary>Returns b if c is true, a otherwise.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 select(bool4 a, bool4 b, bool c)
+        public static bool4 Select(bool4 a, bool4 b, bool c)
         {
             return a ^ ((a ^ b) & c);
         }
@@ -38,7 +38,7 @@ namespace Latios
         /// Per component, the component from b is selected when c is true, otherwise the component from a is selected.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 select(bool2 a, bool2 b, bool2 c)
+        public static bool2 Select(bool2 a, bool2 b, bool2 c)
         {
             return a ^ ((a ^ b) & c);
         }
@@ -48,7 +48,7 @@ namespace Latios
         /// Per component, the component from b is selected when c is true, otherwise the component from a is selected.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 select(bool3 a, bool3 b, bool3 c)
+        public static bool3 Select(bool3 a, bool3 b, bool3 c)
         {
             return a ^ ((a ^ b) & c);
         }
@@ -58,7 +58,7 @@ namespace Latios
         /// Per component, the component from b is selected when c is true, otherwise the component from a is selected.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 select(bool4 a, bool4 b, bool4 c)
+        public static bool4 Select(bool4 a, bool4 b, bool4 c)
         {
             return a ^ ((a ^ b) & c);
         }
