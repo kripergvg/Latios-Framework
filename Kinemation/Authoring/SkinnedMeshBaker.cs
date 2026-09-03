@@ -167,11 +167,16 @@ namespace Latios.Kinemation.Authoring
                 deformFeatures |= MeshDeformDataFeatures.BlendShapes;
             }
 
-            AddComponent(entity, new PendingMeshDeformDataBlob
+            bool requiresDeformation = deformFeatures != MeshDeformDataFeatures.None ||
+                                       (settings != null && settings.bindingMode != SkinnedMeshSettingsAuthoring.BindingMode.DoNotGenerate);
+            if (requiresDeformation)
             {
-                blobHandle = this.RequestCreateBlobAsset(sharedMesh, deformFeatures)
-            });
-            AddComponent<MeshDeformDataBlobReference>(entity);
+                AddComponent(entity, new PendingMeshDeformDataBlob
+                {
+                    blobHandle = this.RequestCreateBlobAsset(sharedMesh, deformFeatures)
+                });
+                AddComponent<MeshDeformDataBlobReference>(entity);
+            }
 
             bool                              useFadeOut = settings != null ? settings.useFadeOut : false;
             Span<MeshMaterialSubmeshSettings> mms        = stackalloc MeshMaterialSubmeshSettings[m_materialsCache.Count];
@@ -194,8 +199,6 @@ namespace Latios.Kinemation.Authoring
                 requireCrossfade = true;
             }
 
-            bool requiresDeformation = deformFeatures != MeshDeformDataFeatures.None ||
-                                       (settings != null && settings.bindingMode != SkinnedMeshSettingsAuthoring.BindingMode.DoNotGenerate);
             var rendererSettings = new MeshRendererBakeSettings
             {
                 targetEntity                = entity,
