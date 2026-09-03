@@ -212,7 +212,7 @@ namespace Latios.Compatibility.UnityNetCode
             if (World.DefaultGameObjectInjectionWorld == null || setAsDefault)
                 World.DefaultGameObjectInjectionWorld = world;
             ScriptBehaviourUpdateOrder.AppendWorldToCurrentPlayerLoop(world);
-            ClientWorlds.Add(world);
+            // NetCode 6.6's ConfigureClientWorldSystem registers the world during system creation.
             return world;
 #endif
         }
@@ -238,7 +238,7 @@ namespace Latios.Compatibility.UnityNetCode
             if (World.DefaultGameObjectInjectionWorld == null)
                 World.DefaultGameObjectInjectionWorld = world;
             ScriptBehaviourUpdateOrder.AppendWorldToCurrentPlayerLoop(world);
-            ServerWorlds.Add(world);
+            // NetCode 6.6's ConfigureServerWorldSystem registers the world during system creation.
             return world;
 #endif
         }
