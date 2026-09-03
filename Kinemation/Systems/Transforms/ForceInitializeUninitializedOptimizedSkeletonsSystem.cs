@@ -21,8 +21,8 @@ namespace Latios.Kinemation.Systems
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-            state.Fluent().With<OptimizedSkeletonHierarchyBlobReference>(true).With<OptimizedSkeletonState, OptimizedBoneTransform, WorldTransform>(false)
-            .Without<OptimizedSkeletonTag>().Build();
+            m_query = state.Fluent().With<OptimizedSkeletonHierarchyBlobReference>(true).With<OptimizedSkeletonState, OptimizedBoneTransform, WorldTransform>(false)
+                      .Without<OptimizedSkeletonTag>().Build();
         }
 
         [BurstCompile]
@@ -100,8 +100,9 @@ namespace Latios.Kinemation.Systems
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-            state.Fluent().With<OptimizedSkeletonHierarchyBlobReference, Unity.Transforms.LocalToWorld>(true).With<OptimizedSkeletonState, OptimizedBoneTransform>(false)
-            .Without<OptimizedSkeletonTag>().Build();
+            m_query = state.Fluent().With<OptimizedSkeletonHierarchyBlobReference, Unity.Transforms.LocalToWorld>(true)
+                      .With<OptimizedSkeletonState, OptimizedBoneTransform>(false)
+                      .Without<OptimizedSkeletonTag>().Build();
         }
 
         [BurstCompile]
